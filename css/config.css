@@ -1,0 +1,8 @@
+body {
+	background-image: url('../img/bg2.jpg');
+}
+
+.w3-container {
+	position:relative;
+	top:5%;
+}
