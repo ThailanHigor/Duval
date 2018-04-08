@@ -8,11 +8,12 @@
 	
 		$cod = $_GET['cod'];
 		$nome = $_GET['nome'];
-		$valor = $_GET['valor'];
+		$precoCompra = $_GET['precoCompra'];
+		$precoVenda = $_GET['precoVenda'];
 		$forn = $_GET['forn'];
 		$qtd = 0;
- 		$sql = "INSERT INTO produtos(codigo,nome,quantidade,valor,idforn) values('$cod',
- 			'$nome','$qtd','$valor','$forn')";
+
+ 		$sql = "INSERT INTO produtos(codigo,nome,quantidade,precoCompra,precoVenda,idforn) values('$cod','$nome','$qtd','$precoCompra','$precoVenda','$forn')";
 
  		$conector->query($sql)or die("Erro ao Cadastrar.");
 	//FIM cadastro	
@@ -45,9 +46,12 @@
      		
      	};
      		$dados['dados'] = $json;
-			echo json_encode($dados);
+			
+		}else{
+			$dados['dados'] = [];
 		}
-	} elseif ($op =='MeuEstProd') {
+		echo json_encode($dados);
+	}elseif ($op =='MeuEstProd') {
 		$sql = "select id,nome,quantidade from produtos";
 		
 		$busca = $conector->query($sql);
@@ -74,6 +78,13 @@
 		$qtd = $_GET['qtd'];
 	
  		$sql = "UPDATE produtos SET quantidade =quantidade-'$qtd' where id='$prod'";
+
+ 		$conector->query($sql)or die("Erro ao Cadastrar.");
+	}elseif ($op =='excluiprod') {
+		$cod = $_GET['cod'];
+		
+	
+ 		$sql = "DELETE FROM produtos where codigo='$cod'";
 
  		$conector->query($sql)or die("Erro ao Cadastrar.");
 	}
