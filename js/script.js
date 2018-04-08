@@ -452,9 +452,16 @@ app.controller('entradaDeMercadorias',function($scope,$http){
 	}
 	//AÇÃO DE NOTA FISCAL
 	$scope.preencheLista = function(prod,qtd){
-		var temp = prod.split("@")
-		var a = {'id':temp[0],'produto':temp[1],'quantidade':qtd}
-		$scope.listaEntrada.push(a);
+		if(prod != null && qtd != null){
+			var temp = prod.split("@")
+			var a = {'id':temp[0],'produto':temp[1],'quantidade':qtd}
+			$scope.listaEntrada.push(a);
+			$scope.alertEntradaMer = false;
+		}else{
+			$scope.alertEntradaMer = true;
+			$scope.msgEntradaMer = 'Você precisa informar o produto e sua quantidade!'
+		}
+
 
 	}
 	//CADASTRA NOTA FISCAL COM NUMERO E FORNECEDOR
