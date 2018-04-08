@@ -234,7 +234,6 @@ app.controller('meusFornecedores',function($scope,$http){
 		$scope.altFEmail = null;
 	}
 
-
 })
 
 app.controller('meusProdutos',function($scope,$http){

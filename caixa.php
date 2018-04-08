@@ -12,7 +12,7 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<!--Script-->
 		<script type="text/javascript" src="js/angular/angular.js"></script>
-		<script type="text/javascript" src="js/caixa.js"></script>
+		<script type="text/javascript" src="js/caixaa.js"></script>
 </head>
 
 <body ng-app='caixa'>
@@ -46,8 +46,9 @@
 									<tr ng-repeat="x in listaprod">
 										<td scope="col">{{x.nome}}</td>
 										<td scope="col"><input type="number" ng-model='qtd' min='1' placeholder="1" style="width:80px;"></td>
-										<td scope="col">{{x.valor}}</td>
-										<td scope='col'><input type='submit' class="btn btn-success btn-sm" ng-click='insereProdVenda(qtd)' value='Adicionar'/></td>
+										<td scope="col">{{x.precoVenda}}</td>
+										<td scope='col'><input type='submit' class="btn btn-success btn-sm" ng-click='insereProdVenda(
+										x.id,x.nome,x.precoVenda,qtd)' value='Adicionar'/></td>
 									</tr>
 								</tbody>
 								
@@ -80,14 +81,17 @@
 										<th scope="col">Produto</th>
 										<th scope="col">Quantidade</th>
 										<th scope="col">Valor Unitário</th>
+										<th scope="col">Valor Total</th>
 										<th scope="col">Venda</th>
 									</tr>
 								</thead>
 									<tr ng-repeat="y in listavenda">
 										<td scope="col">{{y.nome}}</td>
-										<td scope="col">{{y.quantidade}}</td>
-										<td scope="col">{{y.valor}}</td>
-										<td scope='col'><input type='submit' class="btn btn-danger btn-sm" value='Retirar'/></td>
+										<td scope="col">{{y.qtd}}</td>
+										<td scope="col">{{y.preco}}</td>
+										<td scope="col">{{y.vT}}</td>
+										<td scope='col'><input  type='submit' class="btn btn-danger btn-sm" ng-click= 'retiraProduto($index)' value='Retirar'/></td>
+
 									</tr>			
 							</table>
 						
@@ -98,7 +102,7 @@
 					<div style="position:absolute;top:88%;margin-left:43%;width:100%;">
 							<h4>Valor Total:
 							<font size="5" color="red">
-							<input type="number" ng-model='valorTotal' placeholder="R$00.00" disabled style="width:38%;"> 
+							<input type="text" ng-model='valorTotal' placeholder="R$00.00" disabled style="width:38%;"> 
 							</font>
 					</div>
 				</div>
@@ -133,15 +137,15 @@
             	<div style="float: left;">
 					<div id="Caixa" class="w3-container city"><!--PAINEL DO CAIXA-->
 						<h4>Forma de<strong> Pagamento</strong></h4>
-							<form action=""> 
-								<input type="radio" checked name="formadepagamento"> Dinheiro
-								<input type="radio" name="formadepagamento"> Cartão
-								<input type="radio" name="formadepagamento"> Outro 
+							<form> 
+								<input type="radio"  name="formadepagamento" value='Dinheiro'  ng-model='pgt'> Dinheiro
+								<input type="radio" name="formadepagamento" value='Cartao' ng-model='pgt'> Cartão
+								<input type="radio" name="formadepagamento"  value='Outro' ng-model='pgt' checked > Outro 
 							</form>
 							<h4>Pago:<font size="4" color="green"><input ng-model='valorPago' ng-change="calculaTroco(valorPago)" type="number"></font></h4>
 							<h4>Troco:
-							<font size="4" color="red"><input type="label" ng-model='troco' disabled></font>
-							<input type='submit' class="btn btn-success btn-sm" value='Finalizar pedido'/>
+							<font size="4" color="red"><input type="text" ng-model='troco' disabled></font>
+							<input type='submit' ng-click='finalizaVenda(pgt)' class="btn btn-success btn-sm" value='Finalizar pedido'/>
 						</h4>
 					</div>
 				</div>
