@@ -79,7 +79,7 @@
 
 							    <div class="col col-md-12">
 						
-								Quantidade: <input class="form-control" placeholder='0' ng-model='qtdMeuEstoque' type="number">
+								Quantidade: <input class="form-control" min='0' placeholder='0' ng-model='qtdMeuEstoque' type="number">
 
 							</div>
 
@@ -163,7 +163,7 @@
 	   
 	    <!-- FORMULARIO DE BUSCA -->
 		    <div class="card-header" style="display:block;">
-		        <div style="float: left;">
+		        <div style="float: left;" ng-show='exibeMeusProd' >
 					<input type="text"  ng-model='formBusca' name="fornBuscar" placeholder="Produto">
 					<button ng-click='buscaProduto(formBusca)'>Buscar</button>
 								
@@ -173,33 +173,90 @@
 		<!-- FIM FORMULARIO-->  
 
 
-	   	<div class="container" style="width:100%;">  
-		  <table class="table" style="font-size:12px;">
-			    <thead>
-			      <tr>
-			        <th>Código</th>
-			        <th>Nome</th>
-			        <th>Quantidade Atual</th>
-			        <th>Preço de Compra</th>
-			        <th>Preço de Venda</th>
-			        <th>Fornecedor</th>
-			        <th>Editar</th>
-			        <th>Excluir</th>
-			      </tr>
-			    </thead>
-			    <tbody>
-			  		<tr ng-repeat="x in meusprodutos">
-					<td scope="col">{{x.codigo}}</td>
-					<td scope="col">{{x.nome}}</td>
-					<td scope="col">{{x.quantidade}}</td>
-					<td scope="col">{{x.precoCompra}}</td>
-					<td scope="col">{{x.precoVenda}}</td>
-					<td scope="col">{{x.idforn}}</td>
-					<td scope='col'> <input type="submit" value='alterar'/></td>
-					<td scope='col'><button ng-click ="excluirProd(x.codigo)">Excluir</button></td>
-					</tr>
-				</tbody>
-		  </table>
+	   	<div class="container" style="width:100%;"> 
+
+	   		<div ng-show='exibeMeusProd'>
+			 	<table class="table" style="font-size:12px;">
+				    <thead>
+				      <tr>
+				        <th>Código</th>
+				        <th>Nome</th>
+				        <th>Quantidade Atual</th>
+				        <th>Preço de Compra</th>
+				        <th>Preço de Venda</th>
+				        <th>Fornecedor</th>
+				        <th>Editar</th>
+				        <th>Excluir</th>
+				      </tr>
+				    </thead>
+				    <tbody>
+				  		<tr ng-repeat="x in meusprodutos">
+						<td scope="col">{{x.codigo}}</td>
+						<td scope="col">{{x.nome}}</td>
+						<td scope="col">{{x.quantidade}}</td>
+						<td scope="col">{{x.precoCompra}}</td>
+						<td scope="col">{{x.precoVenda}}</td>
+						<td scope="col">{{x.idforn}}</td>
+						<td scope='col'><button ng-click='preencheAlterarMeusProd(x.id,x.codigo,x.nome,x.quantidade,x.precoCompra,x.precoVenda,
+						x.idforn)'>Alterar</button></td>
+						<td scope='col'><button ng-click ="excluirProd(x.codigo,x.nome)">Excluir</button></td>
+						</tr>
+					</tbody>
+			  	</table>
+		  	</div>
+
+		  	<div ng-show='editMeusProd'>
+		  		<div align="left" style="width:25%;" >
+
+					<div class="col-lg-14">
+					    <div class="card">
+
+				           <div class="card-body card-block">
+					            <form class="form-horizontal">
+									<div class="form-group">
+									    <div class="col col-md-12">
+										<input class="form-control" placeholder="Código" ng-model='altCod' type="text" >
+									</div>
+									</div>
+									<div class="form-group">
+									    <div class="col col-md-12">
+										<input class="form-control " placeholder="Produto" ng-model='altNome' type="text" >
+									</div>
+									</div>
+									<div class="form-group">
+									    <div class="col col-md-12">
+										<input class="form-control" placeholder="Preço de Compra" ng-model='altPCompra' type="number" >
+									</div>
+									</div>
+									<div class="form-group">
+									    <div class="col col-md-12">
+										<input class="form-control" placeholder="Preço de Venda" ng-model='altPVenda' type="number" >
+									</div>
+									</div>
+									<div class="form-group">
+									    <div class="col col-md-12">
+										<input class="form-control" readonly placeholder="Quantidade" ng-model='altQtd' type="number" >
+									</div>
+									</div>
+									<div class="form-group">
+									    <div class="col col-md-12">
+											<input class="form-control" readonly placeholder="Fornecedor" ng-model='altForn' type="text" >
+										</div>
+									</div>
+										<div class="card-footer">
+											<button  class="btn btn-success btn-sm" ng-click='alterarProduto(altCod,altNome,altPCompra,altPVenda)' value='Cadastrar'>Atualizar</button>
+											<button type="reset" class="btn btn-danger btn-sm" ng-click='altProdVoltar()'><i class="fa fa-ban"></i> Cancelar</button>
+										</div>
+					            </form>
+				           </div>
+
+
+				        </div>
+						    </div>
+					<br>
+			  </div>
+		  	
+		  	</div>
 
 			<br>
 	  	</div>
@@ -253,7 +310,9 @@
 						<td scope="col">{{x.telefone1}}</td>
 						<td scope="col">{{x.telefone2}}</td>
 						<td scope="col">{{x.email}}</td>
-						<td scope='col'> <button>Alterar</button></td>
+						<td scope='col'> <button ng-click='preencheAlteraForn(
+						x.id,x.nome,x.representante,x.rua,x.bairro,x.numero,
+						x.cidade,x.uf,x.complemento,x.cep,x.cnpj,x.inscricaoEstadual,x.telefone1,x.telefone2,x.email)'>Alterar</button></td>
 						<td scope='col'><button ng-click = excluirForn(x.id)>Excluir</button></td>
 						</tr>
 					</tbody>
@@ -272,7 +331,106 @@
 				<br>
 				<button ng-click='verFornVoltar()'>Voltar</button>
 			
-		
+			</div>
+
+			<div ng-show='alteraForn'>
+				   <div align="left" style="width:40%;height:72%;" >
+			<div class="col-lg-14">
+			    <div class="card">
+		        	<div class="card-body card-block">
+			            <form  class="form-horizontal">
+							<div class="form-group">
+							    <div class="col col-md-12">
+								<input class="form-control " ng-model='altFNome' type="text" >
+								</div>
+							</div>
+
+							<div class="form-group">
+							    <div class="col col-md-12">
+								<input class="form-control " ng-model='altFRep'  type="text" >
+								</div>
+							</div>
+
+							<div class="form-group">
+							    <div class="col col-md-4">
+								<input class="form-control " ng-model='altFRua'  type="text" >
+
+								</div>
+								<div class="col col-md-5">
+								<input class="form-control " ng-model='altFBairro'  type="text" >
+
+								</div>
+								<div class="col col-md-3">
+								<input class="form-control " ng-model='altFNumero' type="number" >
+
+								</div>
+							</div>
+
+							<div class="form-group">
+							    <div class="col col-md-8">
+									<input class="form-control " ng-model='altFCidade' type="text" >
+								</div>
+								<div class="col col-md-4">
+									<input class="form-control " ng-model='altFUF' type="text" >
+
+								</div>
+							</div>
+
+							<div class="form-group">
+							    <div class="col col-md-12">
+								<input class="form-control " ng-model='altFComplemento' type="text" >
+								</div>
+							</div>
+
+							<div class="form-group">
+							    <div class="col col-md-12">
+								<input class="form-control " ng-model='altFCEP'  type="text" >
+								</div>
+							</div>
+
+							<div class="form-group">
+							    <div class="col col-md-12">
+								<input class="form-control " ng-model='altFCNPJ'  type="text" >
+								</div>
+							</div>
+
+							<div class="form-group">
+							    <div class="col col-md-12">
+								<input class="form-control " ng-model='altFIE'  type="text" >
+								</div>
+							</div>				
+
+							<div class="form-group">
+							    <div class="col col-md-6">
+								<input class="form-control " ng-model='altFTel1'  type="text" >
+								</div>
+
+								<div class="col col-md-6">
+								<input class="form-control " ng-model='altFTel2' type="text" >
+								</div>
+							</div>
+						
+							<div class="form-group">
+							    <div class="col col-md-12">
+								<input class="form-control " ng-model='altFEmail' type="text" >
+							</div>
+							
+							</div>						
+							<div class="card-footer">
+								<button class="btn btn-success btn-sm"
+								ng-click='atualizaForn(altFNome,altFRep,altFRua,
+								altFBairro,altFNumero,altFCidade,altFUF,
+								altFComplemento,altFCEP,altFCNPJ,
+								altFIE,altFTel1,altFTel2,altFEmail)'>Confirmar</button>
+								<button type="reset" class="btn btn-danger btn-sm" ng-click='altFornVoltar()'><i class="fa fa-ban"></i> Cancelar</button>
+							</div>
+		            	</form>
+		         	</div>
+		        </div>
+		    </div>
+
+			<br>
+	  	</div>
 			</div>
 
 			<br>
@@ -281,42 +439,49 @@
 	<!-- FIM DIV BUSCA DOS MEUS FORNECEDORES-->
 	
 	<!-- ENTRADA DE MERCADORIAS --> 
-	 <div id="EntradadeMercadorias" class="w3-container city">
+	 <div id="EntradadeMercadorias" class="w3-container city" ng-controller='entradaDeMercadorias'>
 	   <h4>Entrada de <strong>Mercadorias</strong></h4>
+	    <div class="alert alert-success"  ng-show ='alertEntradaMer' role="alert">
+  		<strong>{{msgEntradaMer}}</strong>
+		</div>
 
 		<div align="left" style="width:25%;">
 			<div class="col-lg-14">
 			    <div class="card">
+			    	<!-- DADOS DA NOTA FISCAL-->
 		        	<div class="card-body card-block">
 			            <form action="" method="" class="form-horizontal" style="position:relative;right:140%;top:27px;";>
 							<div class="form-group">
 							    <div class="col col-md-12">
-								<input class="form-control " ng-model='fornNome' placeholder="Nota Fiscal" type="text">
+								<input class="form-control " ng-model='entNumNF' placeholder="Nota Fiscal" type="text">
 							</div>
 							</div>
 							<div class="form-group">
 							    <div class="col col-md-12">
-								<select class="form-control" ng-mouseover=''  ng-model='prodForn' type="text">
-								<option value='Fornecedor'>Fornecedor</option>
-								<option></option>
+									<select class="form-control" ng-mouseover='preencheFornEntrada()' ng-model='codFornNF' type="text">
+									<option ng-repeat='x in comboFornEntrada'  value='{{x.id}}'>{{x.nome}}</option>
 								</select>
+
 								</div>
 							</div>	
 		            	</form>
 		         	</div>
 					
-		<!-- FIM FORMULARIO-->    
+	   				<!-- Inserção de produtos -->
 					<div class="col-lg-6-header" style="display:block;">
 						<div style="float: left;left:2.5%;position:relative;top:-90px;">
 							<div class="form-group">
 								Produto:
-								<select class="form-control" ng-mouseover='buscaProdutos()' style="width:500px;" ng-model='prodMeuEstoque' type="text">
-									<option ng-repeat='x in comboMeuEstoque' value='{{x.id}}'>{{x.nome}}</option>
+								<select class="form-control" ng-mouseover='buscaProdutosEntrada()' style="width:500px;" ng-model='prodEntrada' type="text">
+									<option ng-repeat='x in comboEntMer' value='{{x.id}}@{{x.nome}}'>{{x.nome}}</option>
 								</select>
+								<input   class="form-control" ng-model='entradaMerQtd' type="number" placeholder="Quantidade">
 							</div>
-								<input type='submit' style="position:relative;top:-47px;left:101%;" class="btn btn-success btn-sm" ng-click='insereProdVenda(qtd)' value='+'/>
+							<input type='submit' style="position:relative;top:-47px;left:101%;" class="btn btn-success btn-sm" ng-click='preencheLista(prodEntrada,entradaMerQtd)' value='+'/>
 						</div>
 					</div>
+
+
 						<div class="card-body" style="position:relative;height: 100px;overflow-y: auto;width:500px;top:-125px;left:7px;">
 							<table class="table table-bordered" style="font-size:15px;">
 								<thead>
@@ -326,14 +491,16 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr ng-repeat="x in listaprod">
+									<tr ng-repeat="x in listaEntrada">
 										<td scope="col">{{x.produto}}</td>
-										<td scope="col"><input type="number" ng-model='qtd' min='1' placeholder="1" style="width:80px;"></td>
+										<td scope="col">{{x.quantidade}}</td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
-						<input type='submit' style="position:relative;top:10px;left:35px;" class="btn btn-success btn-sm" ng-click='insereProdVenda(qtd)' value='Finalizar Operação'/>
+						<input type='submit' style="position:relative;top:10px;left:35px;" class="btn btn-success btn-sm" ng-click='cadastraEntrada(entNumNF,codFornNF)' value='Finalizar Operação'/>
+						<input type='submit' style="position:relative;top:10px;"
+						class="btn btn-danger btn-sm" ng-click='cancelaEntrada()' value='Cancelar'/>
 		        </div>
 		    </div>
 			<br>

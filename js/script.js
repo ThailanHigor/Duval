@@ -94,7 +94,9 @@ app.controller('cadastroDeFornecedores',function($scope,$http){
 app.controller('meusFornecedores',function($scope,$http){
 	$scope.verForn = true;
 	$scope.verEnd = false;
+	$scope.alteraForn =  false;
 	$scope.alertMeusFornecedores = false;
+	$scope.idcorrente = 0
 
 	$scope.buscaFornecedor = function(nome){
 		if(nome != null){
@@ -147,15 +149,101 @@ app.controller('meusFornecedores',function($scope,$http){
 				console.log('Fornecedor excluido com sucesso');
 				$scope.alertMeusFornecedores = true;
 				$scope.msgMeusForns = 'Fornecedor excluído com sucesso!'
-				$scope.meusfornecedores= [];$scope.alertMeusFornecedores = false;
+				$scope.meusfornecedores= [];
+				$scope.msgMeusForns = 'Fornecedor excluído com sucesso!'
 			  })
 
+	}
+
+	$scope.preencheAlteraForn = function(id,Nome,Rep,Rua,Bairro,Numero,Cidade,
+		UF,Complemento,CEP,CNPJ,IE,Tel1,Tel2,Email){
+		//mensagem topo de alteracao
+		$scope.alertMeusFornecedores = true;
+		$scope.msgMeusForns = 'Você esta alterando o fornecedor: '+ Nome;
+
+		//alternancia de divs e
+		$scope.verForn = false;
+		$scope.verEnd = false;
+		$scope.alteraForn = true;
+
+		//capturando campos e preenchendo
+		$scope.idcorrente = id;
+		$scope.altFNome = Nome;
+		$scope.altFRep = Rep;
+		$scope.altFRua = Rua;
+		$scope.altFBairro = Bairro;
+		$scope.altFNumero = parseInt(Numero);
+		$scope.altFCidade = Cidade;
+		$scope.altFUF = UF;
+		$scope.altFComplemento = Complemento;
+		$scope.altFCEP = CEP;
+		$scope.altFCNPJ = CNPJ;
+		$scope.altFIE = IE;
+		$scope.altFTel1 = Tel1;
+		$scope.altFTel2 = Tel2;
+		$scope.altFEmail = Email;
+
+	}
+
+	$scope.atualizaForn = function(Nome,Rep,Rua,Bairro,Numero,Cidade,
+		UF,Complemento,CEP,CNPJ,IE,Tel1,Tel2,Email){
+		if(Nome != '' && Rep != '' && Rua != '' && Bairro!= '' && Numero != null &&
+		Cidade != '' && UF != '' && Complemento != '' && CEP != '' && CNPJ != '' && 
+		IE != '' && Tel1 != '' && Tel2 != '' && Email != ''){
+			$http.get("model/fornecedores.php?id="+$scope.idcorrente+"&nome="
+			+Nome+"&rep="+Rep+"&bairro="+Bairro+"&num="+Numero+"&rua="+Rua
+			+"&cidade="+Cidade+"&uf="+UF+"&comp="+Complemento
+			+"&cep="+CEP+"&cnpj="+CNPJ+"&ie="+IE
+			+"&tel1="+Tel1+"&tel2="+Tel2+"&email="+Email+"&op=atualizaForn").
+				then(function success(response){
+  				console.log("Produto Atualizado com Sucesso");
+  				$scope.verForn = true;
+				$scope.alteraForn = false;
+  				$scope.alertMeusFornecedores = true;
+  				$scope.idcorrente = 0;
+  				$scope.msgMeusForns = 'Os dados do produto ' +Nome+ ' foram alterados com sucesso!';
+  				$scope.meusfornecedores = [];
+			})
+		}else{
+			$scope.alertMeusFornecedores = true;
+			$scope.msgMeusForns = 'Erro ao atualizar! Campo(s) inválido(s) ou vazio(s)';
+
+			}
+	}
+
+
+	$scope.altFornVoltar = function(){
+		$scope.alertMeusFornecedores = false; 
+		$scope.verForn = true;
+		$scope.alteraForn = false;
+		$scope.meusfornecedores = [];
+		$scope.idcorrente = 0;
+		$scope.altFNome = null;
+		$scope.altFRep = null;
+		$scope.altFRua = null;
+		$scope.altFBairro = null;
+		$scope.altFNumero = null;
+		$scope.altFCidade = null;
+		$scope.altFUF = null;
+		$scope.altFComplemento = null;
+		$scope.altFCEP = null;
+		$scope.altFCNPJ = null;
+		$scope.altFIE = null;
+		$scope.altFTel1 = null;
+		$scope.altFTel2 = null;
+		$scope.altFEmail = null;
 	}
 
 
 })
 
-app.controller('meusProdutos',function($scope,$http){$scope.alertMeusProdutos = false; $scope.buscaProduto = function(nome){
+app.controller('meusProdutos',function($scope,$http){
+	$scope.alertMeusProdutos = false; 
+	$scope.editMeusProd = false;
+	$scope.exibeMeusProd = true;
+	$scope.idcorrente = 0;
+
+	$scope.buscaProduto = function(nome){
 		if(nome != null){
 			//se o campo nao tiver vazio
 			$http.get('model/produtos.php?op=buscaProdutos'+'&nome='+nome).
@@ -180,21 +268,69 @@ app.controller('meusProdutos',function($scope,$http){$scope.alertMeusProdutos = 
 			$scope.meusprodutos = [];
 
 		}
-	$scope.formBusca = null;
+		$scope.formBusca = null;
 
 	}
 
 
-	$scope.atualizaProd = function(cod){
+	$scope.preencheAlterarMeusProd = function(id,cod,nome,qtd,pCompra,pVenda,forn){
+		$scope.alertMeusProdutos = true;
+		$scope.MeusProdutosMensagem = 'Você está alterando o produto: '+nome; 
+		$scope.editMeusProd = true;
+		$scope.exibeMeusProd = false;
+		$scope.altCod= cod;
+		$scope.altNome= nome;
+		$scope.altPCompra= parseFloat(pCompra);
+		$scope.altPVenda= parseFloat(pVenda);
+		$scope.altQtd= parseFloat(qtd);
+		$scope.altForn= forn;
+		$scope.idcorrente = id;
+
+	}
+
+	$scope.alterarProduto = function(cod,nome,pCompra,pVenda){
+		if(cod != '' && nome != '' && pCompra != null && pVenda != null){
+			$http.get("model/produtos.php?id="+$scope.idcorrente+"&cod="
+			+cod+"&precoCompra="+pCompra+"&precoVenda="+pVenda
+			+"&nome="+nome+"&op=atualizaProd").
+				then(function success(response){
+  				console.log("Produto Cadastrado com Sucesso");
+  				$scope.editMeusProd = false;
+				$scope.exibeMeusProd = true;
+  				$scope.alertMeusProdutos = true;
+  				$scope.idcorrente = 0;
+  				$scope.MeusProdutosMensagem = 'Os dados do produto ' +nome+ ' foram alterados com sucesso!';
+  				$scope.meusprodutos = [];
+			})
+		}else{
+			$scope.alertMeusProdutos = true;
+			$scope.MeusProdutosMensagem = 'Erro ao atualizar! Campo(s) inválido(s) ou vazio(s)';
 
 		}
 
-	$scope.excluirProd = function(cod) {
+	}
+
+	$scope.altProdVoltar = function(){
+		$scope.alertMeusProdutos = false; 
+		$scope.editMeusProd = false;
+		$scope.exibeMeusProd = true;
+		$scope.meusprodutos = [];
+		$scope.altCod= null;
+		$scope.altNome= null;
+		$scope.altPCompra= null;
+		$scope.altPVenda= null;
+		$scope.altQtd= null;
+		$scope.altForn= null;
+		$scope.idcorrente = 0	;
+	}
+
+
+	$scope.excluirProd = function(cod,nome) {
 		$http.get('model/produtos.php?op=excluiprod'+'&cod='+cod).
 			then(function success(response) {
 				console.log('Produto excluido com sucesso')
 				$scope.alertMeusProdutos= true;
-				$scope.MeusProdutosMensagem = 'O Produto foi excluido com sucesso';
+				$scope.MeusProdutosMensagem = 'O Produto '+nome+' foi excluido com sucesso';
 				$scope.meusprodutos = [];
 				$scope.formBusca = null;
 
@@ -293,7 +429,86 @@ app.controller('meuEstoque',function($scope,$http){
 	
 });
 
+app.controller('entradaDeMercadorias',function($scope,$http){
+	$scope.listaEntrada = [];
+	$scope.idcorrenteNF=0;
+	$scope.alertEntradaMer = false;
 
+
+	$scope.preencheFornEntrada = function(){
+		$http.get("model/produtos.php?op=comboForn").
+			then(function success(response){
+				console.log('Combo de Fornecedores atualizada');
+				$scope.comboFornEntrada = response.data.dados;
+			})
+	}
+
+	$scope.buscaProdutosEntrada = function(){
+		$http.get("model/produtos.php?op=MeuEstProd").
+			then(function success(response){
+				console.log('Combo de Produtos atualizada');
+				$scope.comboEntMer = response.data.dados;
+			})
+	}
+	//AÇÃO DE NOTA FISCAL
+	$scope.preencheLista = function(prod,qtd){
+		var temp = prod.split("@")
+		var a = {'id':temp[0],'produto':temp[1],'quantidade':qtd}
+		$scope.listaEntrada.push(a);
+
+	}
+	//CADASTRA NOTA FISCAL COM NUMERO E FORNECEDOR
+	$scope.cadastraEntrada = function(numNF,fornNF){
+		if(numNF != null && fornNF !=null && $scope.listaEntrada.length > 0){
+			$http.get("model/notafiscal.php?op=cadastraNota"+
+			"&numnf="+numNF+"&fornNF="+fornNF).
+			then(function success(response){
+				console.log('Nota Fiscal Cadastrada');
+				$scope.id = response.data.dados;
+				$scope.idcorrenteNF = $scope.id[0]['id_NF'];
+				//PEGA O ID QUE FOI GERADO A PARTIR DO INSERT DA NF
+				$scope.cadastraProdNotas();
+
+			})
+		}else{
+			$scope.alertEntradaMer = true;
+			$scope.msgEntradaMer = 'Campos Inválidos ou Vazios!'
+		}
+
+	}
+	//CADASTRA OS PRODUTOS REFERENTES A NOTA QUE FOI LANCADA
+	$scope.cadastraProdNotas = function(){
+		for (var i =0;i<$scope.listaEntrada.length; i++) {
+			$http.get("model/notafiscal.php?op=prodsNota"+
+			"&prod="+$scope.listaEntrada[i]['id']+
+			"&qtd="+$scope.listaEntrada[i]['quantidade']+
+			"&idnf="+$scope.idcorrenteNF).
+			then(function success(response){
+
+			})
+
+		}
+		$scope.limpaCamposEntrada();
+		$scope.alertEntradaMer = true;
+		$scope.msgEntradaMer = 'Nota fiscal cadastrada e quantidade dos Produtos alterada'
+
+	}
+	$scope.cancelaEntrada = function(){
+		$scope.limpaCamposEntrada();
+		$scope.alertEntradaMer = true;
+		$scope.msgEntradaMer = 'Entrada de nota fiscal Cancelada!'
+
+	}
+
+	$scope.limpaCamposEntrada = function(){
+		$scope.entNumNF = null;
+		$scope.codFornNF = null;
+		$scope.prodEntrada = null;
+		$scope.entradaMerQtd = null;
+		$scope.listaEntrada = [];
+
+	}
+})
 
 
 

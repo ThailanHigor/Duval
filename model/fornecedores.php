@@ -57,6 +57,37 @@
  		$sql = "DELETE FROM fornecedores where id='$id'";
 
  		$conector->query($sql)or die("Erro ao Cadastrar.");
+	}elseif ($op =='atualizaForn') {
+
+		$id = $_GET['id'];
+		$nome = $_GET['nome'];
+		$rep = $_GET['rep'];
+		$rua = $_GET['rua'];
+		$bairro = $_GET['bairro'];
+		$numero = $_GET['num'];
+		$cidade = $_GET['cidade'];
+		$uf = $_GET['uf'];
+		$complemento = $_GET['comp'];
+		$cep = $_GET['cep'];
+		$cnpj = $_GET['cnpj'];
+		$ie = $_GET['ie'];
+		$tel1 = $_GET['tel1'];
+		$tel2 = $_GET['tel2'];
+		$email = $_GET['email'];
+		
+	
+ 		$sql = "UPDATE fornecedores SET nome = '$nome',
+	 				representante = '$rep', rua = '$rua',
+	 				bairro = '$bairro', numero = '$numero',
+	 				cidade = '$cidade', uf = '$uf',
+	 				complemento = '$complemento', cep = '$cep',
+	 				cnpj = '$cnpj', 
+	 				inscricaoEstadual = '$ie',
+	 				telefone1 = '$tel1', telefone2 = '$tel2',
+	 				email = '$email'
+ 				WHERE id = '$id'";
+
+ 		$conector->query($sql)or die("Erro ao Cadastrar.");
 	}
 
 ?>

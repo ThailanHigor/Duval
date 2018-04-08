@@ -73,6 +73,7 @@
  		$sql = "UPDATE produtos SET quantidade =quantidade+'$qtd' where id='$prod'";
 
  		$conector->query($sql)or die("Erro ao Cadastrar.");
+ 		
 	}elseif ($op =='diminuiEst') {
 		$prod = $_GET['prod'];
 		$qtd = $_GET['qtd'];
@@ -85,6 +86,18 @@
 		
 	
  		$sql = "DELETE FROM produtos where codigo='$cod'";
+
+ 		$conector->query($sql)or die("Erro ao Cadastrar.");
+	}elseif ($op =='atualizaProd') {
+		$id = $_GET['id'];
+		$cod = $_GET['cod'];
+		$nome = $_GET['nome'];
+		$precoCompra = $_GET['precoCompra'];
+		$precoVenda = $_GET['precoVenda'];
+	
+		
+	
+ 		$sql = "UPDATE produtos SET codigo = '$cod', nome = '$nome', precoCompra = '$precoCompra', precoVenda = '$precoVenda' WHERE id = '$id'";
 
  		$conector->query($sql)or die("Erro ao Cadastrar.");
 	}
