@@ -34,7 +34,7 @@
 		}
 	}elseif ($op =='buscaProdutos') {
 		$nome = $_GET['nome'];
-		$sql = "select * from produtos where nome like '%$nome%'";
+		$sql = "select * from produtos where LOWER(nome) like LOWER('%$nome%')";
 		
 		$busca = $conector->query($sql);
 

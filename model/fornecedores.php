@@ -35,7 +35,7 @@
 	
 		$nome = $_GET['nome'];
 
- 		$sql = "SELECT * FROM fornecedores where nome like '%$nome%'";
+ 		$sql = "SELECT * FROM fornecedores where LOWER(nome) like LOWER('%$nome%')";
 
 		$busca = $conector->query($sql);
 
@@ -47,8 +47,11 @@
      		
      	};
      		$dados['dados'] = $json;
-			echo json_encode($dados);
+			
+		}else{
+			$dados['dados'] = [];
 		}
+		echo json_encode($dados);
 
 	}elseif ($op =='excluirForn') {
 		$id = $_GET['id'];
