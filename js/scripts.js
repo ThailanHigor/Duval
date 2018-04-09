@@ -533,4 +533,18 @@ app.controller('aberturaCaixa',function($scope,$http,$window){
 				}
 			})
 	}
+
+	$scope.abrirCaixa = function(vatual){
+		if(vatual != null){
+			$http.get("model/caixamodel.php?op=abrirCaixa"+
+			'&vAtual='+vatual).
+			then(function success(response){
+				console.log('Aberto');
+				$window.location.href = 'caixa.php'
+			})
+
+		}
+
+	}
+
 })

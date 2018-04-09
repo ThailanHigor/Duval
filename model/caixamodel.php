@@ -70,7 +70,7 @@ if ($op =='buscaProdutos') {
 
 }elseif ($op =='validaCaixa') {
 	$data = date('Y-m-d');
-		$sql = "SELECT * FROM caixa where caixa_data = '$data' ";
+		$sql = "SELECT * FROM caixa where caixa_data = '$data' and caixa_status='0' ";
 
 		$busca = $conector->query($sql);
 
@@ -88,11 +88,54 @@ if ($op =='buscaProdutos') {
 		}
 		echo json_encode($dados);
 
+}elseif ($op =='buscaSaldoDisp') {
+	$data = date('Y-m-d');
+		$sql = "SELECT valor_atual FROM caixa where caixa_data = '$data' and caixa_status='0'";
+
+		$busca = $conector->query($sql);
+
+		$quantidade = mysqli_num_rows($busca);
+
+		if ($quantidade > 0) {
+			while($row = $busca->fetch_assoc()){
+     		$json[] = $row;
+     		
+     	};
+     		$dados['dados'] = $json;
+		}else{
+			$dados['dados'] = [];
+			
+		}
+		echo json_encode($dados);
+
+}elseif ($op =='atualizaValAtual') {
+		$atual = $_GET['atual'];
+		$data = date('Y-m-d');	
+	
+ 		$sql = "UPDATE caixa SET valor_atual =valor_atual+'$atual' where caixa_data='$data' and caixa_status='0'";
+
+ 		$conector->query($sql)or die("Erro ao Cadastrar.");
+
+}elseif ($op =='abrirCaixa') {
+		$atual = $_GET['vAtual'];
+		$data = date('Y-m-d');	
+
+
+ 		$sql = "INSERT INTO caixa(caixa_data,valor_abertura,valor_atual)
+ 			 values('$data','$atual','$atual')";
+
+ 		$conector->query($sql)or die("Erro ao Cadastrar.");
+
+}elseif ($op =='fecharCaixa') {
+		$final = $_GET['vfinal'];
+		$data = date('Y-m-d');	
+
+
+ 		$sql = "UPDATE caixa SET valor_fechamento='$final', caixa_status= '1' where caixa_data='$data' and caixa_status='0'";
+
+ 		$conector->query($sql)or die("Erro ao Cadastrar.");
+
 }
-
-
-
-
 
 
 ?>

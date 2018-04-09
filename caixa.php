@@ -12,11 +12,12 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<!--Script-->
 		<script type="text/javascript" src="js/angular/angular.js"></script>
-		<script type="text/javascript" src="js/caixaa.js"></script>
+		<script type="text/javascript" src="js/caixa.js"></script>
 </head>
 
 <body ng-app='caixa'>
-	<div ng-controller='listaProd'>
+	<div ng-controller='listaProd' ng-init='buscaValorAtual()'>
+
 <!-- DIV DE EXIBIÇÃO DO CAIXA-->
 	<div class="col-lg-6">
         <div class="card" style="position:relative;top:10px;">
@@ -118,10 +119,11 @@
             <div class="card-header" style="display:block;width:100%;height:26%;">
             	<div style="float: left;">
 					<div id="Caixa" class="w3-container city"><!--PAINEL DO CAIXA-->
-						<h4>Saldo Disponível no<strong> Caixa</strong></h4><p>
+						<h4>Total de vendas <strong> Atual</strong></h4><p>
 							<div class="col-lg-6-header" style="display:block;">
-								<font size="30" color="green"><input type="label" value="R$0,00" disabled size="19">
+								<font size="30" color="green"><input type="text" ng-model='totalAtual' disabled size="19">
 								</font>
+								<button type="reset" class="btn btn-danger btn-sm" ng-click='fecharCaixa()'><i class="fa fa-ban"></i> Fechar Caixa</button>
 							</div>
 					</div>
 				</div>

@@ -26,8 +26,36 @@
 	<div ng-controller='aberturaCaixa'>
 		<a  ng-click='validaCaixa()' class="w3-button w3-black" style="text-decoration:none">Caixa</a>
 	<button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">Painel de Controle</button>
+
 		<div ng-show='abertura'>
-				<h1>teste</h1>
+		<br>
+			<div align="left" style="width:25%;" >
+				<div class="col-lg-14">
+				    <div class="card">
+				    <h1>Abertura de Caixa</h1>
+			          <div class="card-body card-block">
+				            <form class="form-horizontal">
+								<div class="form-group">
+								    <div class="col col-md-12">
+									<input class="form-control" placeholder="Valor Abertura" ng-model='vAt' min='0' type="number" >
+								</div>
+								</div>
+								<div class="form-group">
+									<center>
+								    <div class="col col-md-12">
+									<button type="reset" class="btn btn-success btn-sm" ng-click='abrirCaixa(vAt)'><i class="fa fa-ban"></i> Abrir Caixa</button>
+									</div>
+									</center>
+
+								</div>
+				            </form>
+			           </div>
+
+
+			        </div>
+				</div>
+				
+		  </div>
 		</div>
 	</div>
 	

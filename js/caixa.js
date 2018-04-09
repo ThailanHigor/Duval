@@ -1,13 +1,51 @@
 var app = angular.module('caixa',[]);
 
 
-app.controller('listaProd', function ($scope,$http) {
+app.controller('listaProd', function ($scope,$http,$window) {
 	$scope.listaprod = [];
 	$scope.listavenda = [];
 	$scope.valorTotal= 0;
 	$scope.troco = 0;
 	$scope.aux = 0
-	$scope.idcorrenteVenda = 0
+	$scope.idcorrenteVenda = 0;
+	$scope.totalAtual = 0;
+
+	//REFERENTE AO CAIXA E ABERTURA
+	$scope.buscaValorAtual = function(){
+		$http.get('model/caixamodel.php?op=buscaSaldoDisp').
+		then(function success(response){
+		$scope.totalat = response.data.dados;
+		console.log($scope.totalat[0]['valor_atual'])
+		$scope.totalAtual = $scope.totalat[0]['valor_atual'];
+			
+		})
+
+	}
+
+	$scope.atualizaValorAtual = function(){
+		$http.get('model/caixamodel.php?op=atualizaValAtual'+
+			'&atual='+$scope.valorTotal).
+			then(function success(response){
+			$scope.buscaValorAtual();
+		})
+	}
+
+	$scope.fecharCaixa = function(){
+		fechar = confirm("DESEJA REALMENTE FECHAR O CAIXA?");
+		if(fechar){
+			$http.get("model/caixamodel.php?op=fecharCaixa"+
+			'&vfinal='+$scope.totalAtual).
+			then(function success(response){
+				console.log('Aberto');
+				alert('Voce Fechou o caixa, valor final: '+$scope.totalAtual)
+				$window.location.href = 'index.php'
+			})
+
+		}
+
+		
+	}
+
 
 
 	$scope.buscarProduto = function(nome){
@@ -93,6 +131,7 @@ app.controller('listaProd', function ($scope,$http) {
 			})
 
 		}
+		$scope.atualizaValorAtual();
 		$scope.limpaCampos();
 		alert('VENDA EFETUADA COM SUCESSO!!')
 	}
