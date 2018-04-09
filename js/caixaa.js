@@ -47,7 +47,8 @@ app.controller('listaProd', function ($scope,$http) {
 	}
 
 	$scope.finalizaVenda = function(pg){
-		if($scope.pgt != null && $scope.valorPago != null && $scope.listavenda.length>0){
+		if($scope.pgt != null && $scope.valorPago != null && $scope.listavenda.length>0 &&
+			$scope.valorPago >= $scope.valorTotal){
 			decisao = confirm("DESEJA FINALIZAR A VENDA?");
 			if(decisao){
 				$http.get("model/caixamodel.php?valorT="+$scope.valorTotal+
@@ -61,7 +62,7 @@ app.controller('listaProd', function ($scope,$http) {
 		}
 
 		}else{
-			alert('Campos Vazios ou Inválidos')
+			alert('Campos Vazios, Inválidos ou o Valor Pago é menor que o Total ')
 		}
 	
 
@@ -108,3 +109,5 @@ app.controller('listaProd', function ($scope,$http) {
 		$scope.prodCaixa = null;
 	}
 })
+
+

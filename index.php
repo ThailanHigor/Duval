@@ -9,9 +9,9 @@
 			<link rel="stylesheet" href="css/w3.css">
 			<link rel="stylesheet" href="css/bootstrap/bootstrap3.3.7.css">
 			<script src="js/angular/angular.js" type="text/javascript"></script>
-			  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-			<script src="js/script.js" type="text/javascript"></script>
+			<script src="js/scripts.js" type="text/javascript"></script>
 </head>
 <body ng-app='duval'>
 
@@ -21,18 +21,16 @@
 
 
 <div class="w3-container" align="center">
-<h2>Bem-vindo, Usuário.</h2>
-<p>Para iniciar suas atividades, basta clicar no botão abaixo.</p>
-	<a href="caixa.php" class="w3-button w3-black" style="text-decoration:none">Caixa</a>
-<button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">Painel de Controle</button>
-
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      TESTANDO
-    </div>
-  </div>
-</div>
+	<h2>Bem-vindo, Usuário.</h2>
+	<p>Para iniciar suas atividades, basta clicar no botão abaixo.</p>
+	<div ng-controller='aberturaCaixa'>
+		<a  ng-click='validaCaixa()' class="w3-button w3-black" style="text-decoration:none">Caixa</a>
+	<button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">Painel de Controle</button>
+		<div ng-show='abertura'>
+				<h1>teste</h1>
+		</div>
+	</div>
+	
 
 <div id="id01" class="w3-modal">
  <div class="w3-modal-content w3-card-4 w3-animate-zoom">

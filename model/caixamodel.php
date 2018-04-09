@@ -60,7 +60,6 @@ if ($op =='buscaProdutos') {
 			values('$prod','$qtd','$idV')";
 
  	$conector->query($sql)or die("Erro ao Cadastrar.");
-
 }elseif ($op =='atualizaEst') {
 		$prod = $_GET['prod'];
 		$qtd = $_GET['qtd'];
@@ -68,6 +67,26 @@ if ($op =='buscaProdutos') {
  		$sql = "UPDATE produtos SET quantidade =quantidade-'$qtd' where id='$prod'";
 
  		$conector->query($sql)or die("Erro ao Cadastrar.");
+
+}elseif ($op =='validaCaixa') {
+	$data = date('Y-m-d');
+		$sql = "SELECT * FROM caixa where caixa_data = '$data' ";
+
+		$busca = $conector->query($sql);
+
+		$quantidade = mysqli_num_rows($busca);
+
+		if ($quantidade > 0) {
+			while($row = $busca->fetch_assoc()){
+     		$json[] = $row;
+     		
+     	};
+     		$dados['dados'] = $json;
+		}else{
+			$dados['dados'] = [];
+			
+		}
+		echo json_encode($dados);
 
 }
 

@@ -517,4 +517,20 @@ app.controller('entradaDeMercadorias',function($scope,$http){
 })
 
 
+app.controller('aberturaCaixa',function($scope,$http,$window){
+	$scope.abertura = false;
 
+	$scope.validaCaixa = function(){
+		$http.get("model/caixamodel.php?op=validaCaixa").
+			then(function success(response){
+				console.log('Validado');
+				$scope.caixaDia = response.data.dados;
+				if($scope.caixaDia.length <= 0){
+					alert('Voce precisa abrir o caixa hoje!')
+					$scope.abertura = true;
+				}else{
+					$window.location.href = 'caixa.php'
+				}
+			})
+	}
+})
