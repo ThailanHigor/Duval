@@ -8,7 +8,7 @@ app.controller('listaProd', function ($scope,$http,$window) {
 	$scope.troco = 0;
 	$scope.aux = 0
 	$scope.idcorrenteVenda = 0;
-	$scope.totalAtual = 0;
+	$scope.totalAtual = 0
 
 	//REFERENTE AO CAIXA E ABERTURA
 	$scope.buscaValorAtual = function(){
