@@ -122,10 +122,11 @@ app.controller('meusFornecedores',function($scope,$http){
 		$scope.fornBusca = null;
 	}
 
-	$scope.verEndereco = function(nome,rua,bairro,num,cid,uf,comp){
+	$scope.verEndereco = function(nome,representante,rua,bairro,num,cid,uf,comp,cep,cnpj,ie,tel1,tel2,email){
 		$scope.alertMeusFornecedores = true;
-		$scope.msgMeusForns = 'Detalhes de endereço..';
+		$scope.msgMeusForns = 'Informações do Fornecedor';
 		$scope.verForn = false;
+		$scope.verRep=representante;
 		$scope.verEnd = true;
 		$scope.verNome=nome;
 		$scope.verRua= rua;
@@ -134,6 +135,12 @@ app.controller('meusFornecedores',function($scope,$http){
 		$scope.verCid=cid;
 		$scope.verUF=uf;
 		$scope.verComp=comp;
+		$scope.verCep=cep;
+		$scope.verCNPJ=cnpj;
+		$scope.verIE=ie;
+		$scope.verTel1=tel1;
+		$scope.verTel2=tel2;
+		$scope.verEmail=email;
 
 	}
 	$scope.verFornVoltar = function(){

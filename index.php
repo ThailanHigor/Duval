@@ -3,14 +3,13 @@
 	<link rel="icon" href="img/aw.ico" type="image/x-icon" />
 	<link rel="shortcut icon" href="img/aw.ico" type="image/x-icon" />
 
-		<title>ARTWEB - Depósito Duval</title>
+		<title>ARTWEB - Sistema de Gestão Comercial</title>
 			<meta charset="UTF-8">
 			<link rel="stylesheet" href="css/config.css">
 			<link rel="stylesheet" href="css/w3.css">
 			<link rel="stylesheet" href="css/bootstrap/bootstrap3.3.7.css">
 			<script src="js/angular/angular.js" type="text/javascript"></script>
-			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+			<script src="js/ajax.js"></script>
 			<script src="js/scripts.js" type="text/javascript"></script>
 </head>
 <body ng-app='duval'>
@@ -24,12 +23,16 @@
 	<h2>Bem-vindo, Usuário.</h2>
 	<p>Para iniciar suas atividades, basta clicar no botão abaixo.</p>
 	<div ng-controller='aberturaCaixa'>
-		<a  ng-click='validaCaixa()' class="w3-button w3-black" style="text-decoration:none">Caixa</a>
-	<button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">Painel de Controle</button>
+		<a  ng-click='validaCaixa()' onclick="document.getElementById('id02').style.display='block'" class="w3-button w3-black" style="text-decoration:none;border-radius:10px;width:150px;">Caixa</a>
+	<button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black" style="border-radius:10px;">Painel de Controle</button>
 
 		<div ng-show='abertura'>
-		<br>
-			<div align="left" style="width:25%;" >
+		<div id="id02" class="w3-modal">
+ <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="width:600px;">
+  <header class="w3-container w3-orange"> 
+	   <span onclick="document.getElementById('id02').style.display='none'" 
+	   class="w3-button w3-orange w3-xlarge w3-display-topright">&times;</span>
+			<div align="center">
 				<div class="col-lg-14">
 				    <div class="card">
 				    <h1>Abertura de Caixa</h1>
@@ -37,7 +40,7 @@
 				            <form class="form-horizontal">
 								<div class="form-group">
 								    <div class="col col-md-12">
-									<input class="form-control" placeholder="Valor Abertura" ng-model='vAt' min='0' type="number" >
+									<input class="form-control" placeholder="Valor Abertura" ng-model='vAt' min='0' style="width:30%;" type="number" >
 								</div>
 								</div>
 								<div class="form-group">
@@ -57,6 +60,8 @@
 				
 		  </div>
 		</div>
+	</div>
+	</div>
 	</div>
 	
 
@@ -112,7 +117,7 @@
 							</div>
 			            </form>
 		          	</div>
-		         	<div class="card-footer">
+		         	<div class="card-footer" align="center">
 		           		<input type='submit' class="btn btn-success btn-sm" ng-click='aumentaEstProd(prodMeuEstoque,qtdMeuEstoque)' value='Adicionar'/>
 		           		 <button type="reset" ng-click='diminuiEstProd(prodMeuEstoque,qtdMeuEstoque)' class="btn btn-danger btn-sm"><i class="fa fa-ban"></i> Remover</button>
 		         	</div>
@@ -131,7 +136,7 @@
   		<strong>{{msgCadProd}}</strong>
 		</div>
 	  
-	   <div align="left" style="width:25%;" >
+	   <div align="left" style="width:50%;height:380px;" >
 
 			<div class="col-lg-14">
 			    <div class="card">
@@ -139,31 +144,33 @@
 		           <div class="card-body card-block">
 			            <form class="form-horizontal">
 							<div class="form-group">
-							    <div class="col col-md-12">
-								<input class="form-control" placeholder="Código" ng-model='prodCod' type="text" >
+							    <div class="col col-md-12">Código:
+								<input class="form-control" placeholder="Insira o código do produto" ng-model='prodCod' type="text" >
 							</div>
 							</div>
 							<div class="form-group">
-							    <div class="col col-md-12">
-								<input class="form-control " placeholder="Produto" ng-model='prodNome' type="text" >
+							    <div class="col col-md-12">Nome:
+								<input class="form-control " placeholder="Insira o nome do Produto" ng-model='prodNome' type="text" >
 							</div>
 							</div>
 							<div class="form-group">
-							    <div class="col col-md-12">
-								<input class="form-control" placeholder="Preço de Compra" ng-model='prodValorCompra' type="number" >
+							    <div class="col col-md-6">Valor de Compra:
+								<input class="form-control" placeholder="Insira o preço de compra" ng-model='prodValorCompra' min='0' type="number" >
+							</div>
+
+							    <div class="col col-md-6">Valor de Venda:
+								<input class="form-control" placeholder="Insira o preço de venda" ng-model='prodValorVenda' min='0' type="number" >
 							</div>
 							</div>
 							<div class="form-group">
-							    <div class="col col-md-12">
-								<input class="form-control" placeholder="Preço de Venda" ng-model='prodValorVenda' type="number" >
-							</div>
-							</div>
-							<div class="form-group">
-							    <div class="col col-md-12">
+							    <div class="col col-md-12">Fornecedor:
 								<select class="form-control" ng-mouseover='preencheForn()'  ng-model='prodForn' type="text">
 								<option ng-repeat='x in comboForn'  value='{{x.id}}'>{{x.nome}}</option>
 								</select>
 								</div>
+							</div>
+							<div style="position:relative;top:-10px;">Imagem do Produto:
+								<input type="file" name="imagem"/>
 							</div>
 								<div class="card-footer">
 									<button  class="btn btn-success btn-sm" ng-click='cadastraProduto(prodCod,prodNome,prodValorCompra,prodValorVenda,prodForn)' value='Cadastrar'>Cadastrar</button>
@@ -205,6 +212,7 @@
 			 	<table class="table" style="font-size:12px;">
 				    <thead>
 				      <tr>
+				        <th>Imagem</th>
 				        <th>Código</th>
 				        <th>Nome</th>
 				        <th>Quantidade Atual</th>
@@ -217,6 +225,7 @@
 				    </thead>
 				    <tbody>
 				  		<tr ng-repeat="x in meusprodutos">
+						<td scope="col">{{x.imagem}}</td>
 						<td scope="col">{{x.codigo}}</td>
 						<td scope="col">{{x.nome}}</td>
 						<td scope="col">{{x.quantidade}}</td>
@@ -232,7 +241,7 @@
 		  	</div>
 
 		  	<div ng-show='editMeusProd'>
-		  		<div align="left" style="width:25%;" >
+		  		<div align="left" style="width:50%;" >
 
 					<div class="col-lg-14">
 					    <div class="card">
@@ -240,32 +249,29 @@
 				           <div class="card-body card-block">
 					            <form class="form-horizontal">
 									<div class="form-group">
-									    <div class="col col-md-12">
+									    <div class="col col-md-6">Código:
 										<input class="form-control" placeholder="Código" ng-model='altCod' type="text" >
 									</div>
-									</div>
-									<div class="form-group">
-									    <div class="col col-md-12">
+
+									    <div class="col col-md-6">Nome:
 										<input class="form-control " placeholder="Produto" ng-model='altNome' type="text" >
 									</div>
 									</div>
 									<div class="form-group">
-									    <div class="col col-md-12">
+									    <div class="col col-md-6">Preço de Compra:
 										<input class="form-control" placeholder="Preço de Compra" ng-model='altPCompra' type="number" >
 									</div>
-									</div>
-									<div class="form-group">
-									    <div class="col col-md-12">
+
+									    <div class="col col-md-6">Preço de Venda:
 										<input class="form-control" placeholder="Preço de Venda" ng-model='altPVenda' type="number" >
 									</div>
 									</div>
 									<div class="form-group">
-									    <div class="col col-md-12">
+									    <div class="col col-md-6">Quantidade:
 										<input class="form-control" readonly placeholder="Quantidade" ng-model='altQtd' type="number" >
 									</div>
-									</div>
-									<div class="form-group">
-									    <div class="col col-md-12">
+
+									    <div class="col col-md-6">Fornecedor:
 											<input class="form-control" readonly placeholder="Fornecedor" ng-model='altForn' type="text" >
 										</div>
 									</div>
@@ -311,31 +317,21 @@
 				<table class="table" style="font-size:12px;">
 					<thead>
 					  <tr>
+					    <th>ID</th>
 					    <th>Nome</th>
 					    <th>Representante</th>
-					    <th>Endereço</th>
-					    <th>CEP</th>			
-					    <th>CNPJ</th>
-					    <th>IE</th>
-					    <th>Telefone 1</th>
-					    <th>Telefone 2</th>
-					    <th>E-mail</th>
+					    <th>Mais Informações</th>
 					    <th>Editar</th>
 					    <th>Excluir</th>
 					  </tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="x in meusfornecedores">
+						<td scope="col">{{x.id}}</td>
 						<td scope="col">{{x.nome}}</td>
 						<td scope="col">{{x.representante}}</td>
 						<td scope="col"><button 
-						ng-click='verEndereco(x.nome,x.rua,x.bairro,x.numero,x.cidade,x.uf, x.complemento)'>Visualizar</button></td>
-						<td scope="col">{{x.cep}}</td>
-						<td scope="col">{{x.cnpj}}</td>
-						<td scope="col">{{x.inscricaoEstadual}}</td>
-						<td scope="col">{{x.telefone1}}</td>
-						<td scope="col">{{x.telefone2}}</td>
-						<td scope="col">{{x.email}}</td>
+						ng-click='verEndereco(x.nome,x.representante,x.rua,x.bairro,x.numero,x.cidade,x.uf,x.complemento,x.cep,x.cnpj,x.inscricaoEstadual,x.telefone1,x.telefone2,x.email)'>Visualizar</button></td>
 						<td scope='col'> <button ng-click='preencheAlteraForn(
 						x.id,x.nome,x.representante,x.rua,x.bairro,x.numero,
 						x.cidade,x.uf,x.complemento,x.cep,x.cnpj,x.inscricaoEstadual,x.telefone1,x.telefone2,x.email)'>Alterar</button></td>
@@ -345,104 +341,156 @@
 				</table>
 			</div>
 			<!-- DIV DETALHAMENTO DO ENDERECO -->
-			<div ng-show='verEnd'>		
-				<!-- RODRIGO DO PHRONTY ENDY FAVOR ESTILIZAR-->
-				<p>Fornecedor: {{verNome}}</p>
-				<p>Cidade: {{verCid}}</p>
-				<p>Estado: {{verUF}}</p>
-				<p>Bairro: {{verBairro}}</p>
-				<p>Número: {{verNum}}</p>
-				<p>Rua: {{verRua}}</p>
-				<p>Complemento: {{verComp}}</p>
-				<br>
-				<button ng-click='verFornVoltar()'>Voltar</button>
+			<div ng-show='verEnd' align="left">		
+
+			            <form  class="form-horizontal">
+							<div class="form-group">
+							    <div class="col col-md-6">Fornecedor:
+								<input class="form-control" type="text" value="{{verNome}}" disabled>
+								</div>
+		
+							    <div class="col col-md-6">Representante:
+								<input class="form-control " value="{{verRep}}" type="text" disabled>
+								</div>
+							</div>
+
+							<div class="form-group">
+							    <div class="col col-md-4">Rua:
+								<input class="form-control " value="{{verRua}}" type="text" disabled>
+
+								</div>
+								<div class="col col-md-5">Bairro:
+								<input class="form-control " value="{{verBairro}}" type="text" disabled>
+
+								</div>
+								<div class="col col-md-3">Número:
+								<input class="form-control " value="{{verNum}}" type="number" disabled>
+
+								</div>
+							</div>
+
+							<div class="form-group">
+							    <div class="col col-md-4">Cidade:
+									<input class="form-control " value="{{verCid}}" type="text" disabled>
+								</div>
+								<div class="col col-md-2">UF:
+									<input class="form-control " value="{{verUF}}" type="text" disabled>
+
+								</div>
+
+							    <div class="col col-md-2">Complemento:
+								<input class="form-control " value="{{verNome}}" type="text" disabled>
+								</div>
+
+							    <div class="col col-md-4">CEP:
+								<input class="form-control " value="{{verCep}}" type="text" disabled>
+								</div>
+							</div>
+
+							<div class="form-group">
+							    <div class="col col-md-6">CNPJ:
+								<input class="form-control " value="{{verCNPJ}}" type="text" disabled>
+								</div>
+
+							    <div class="col col-md-6">IE:
+								<input class="form-control " value="{{verIE}}" type="text" disabled>
+								</div>
+							</div>				
+
+							<div class="form-group">
+							    <div class="col col-md-3">Telefone 1:
+								<input class="form-control " value="{{verTel1}}" type="text" disabled>
+								</div>
+
+								<div class="col col-md-3">Telefone 2:
+								<input class="form-control " value="{{verTel2}}" type="text" disabled>
+								</div>
+	
+							    <div class="col col-md-6">E-mail:
+								<input class="form-control " value="{{verEmail}}" type="text" disabled>
+							</div>
+							
+							</div>						
+		            	</form>
+						
+				<button ng-click='verFornVoltar()' class="btn btn-info" style="position:relative;left:46.3%;width:80px;">Voltar</button>
 			
 			</div>
 
 			<div ng-show='alteraForn'>
-				   <div align="left" style="width:40%;height:72%;" >
+				   <div align="left" style="width:70%;height:72%;" >
 			<div class="col-lg-14">
 			    <div class="card">
 		        	<div class="card-body card-block">
 			            <form  class="form-horizontal">
 							<div class="form-group">
-							    <div class="col col-md-12">
-								<input class="form-control " ng-model='altFNome' type="text" >
+							    <div class="col col-md-6">Nome:
+								<input class="form-control " ng-model='altFNome' type="text" maxlength="50">
+								</div>
+		
+							    <div class="col col-md-6">Representante:
+								<input class="form-control " ng-model='altFRep'  type="text" maxlength="100">
 								</div>
 							</div>
 
 							<div class="form-group">
-							    <div class="col col-md-12">
-								<input class="form-control " ng-model='altFRep'  type="text" >
-								</div>
-							</div>
-
-							<div class="form-group">
-							    <div class="col col-md-4">
-								<input class="form-control " ng-model='altFRua'  type="text" >
+							    <div class="col col-md-6">Rua:
+								<input class="form-control " ng-model='altFRua'  type="text" maxlength="50">
 
 								</div>
-								<div class="col col-md-5">
-								<input class="form-control " ng-model='altFBairro'  type="text" >
+								<div class="col col-md-4">Bairro:
+								<input class="form-control " ng-model='altFBairro'  type="text" maxlength="70">
 
 								</div>
-								<div class="col col-md-3">
-								<input class="form-control " ng-model='altFNumero' type="number" >
-
-								</div>
-							</div>
-
-							<div class="form-group">
-							    <div class="col col-md-8">
-									<input class="form-control " ng-model='altFCidade' type="text" >
-								</div>
-								<div class="col col-md-4">
-									<input class="form-control " ng-model='altFUF' type="text" >
+								<div class="col col-md-2">Número:
+								<input class="form-control " ng-model='altFNumero' type="number" maxlength="10">
 
 								</div>
 							</div>
 
 							<div class="form-group">
-							    <div class="col col-md-12">
-								<input class="form-control " ng-model='altFComplemento' type="text" >
+							    <div class="col col-md-6">Cidade:
+									<input class="form-control " ng-model='altFCidade' type="text" maxlength="30">
+								</div>
+								<div class="col col-md-2">UF:
+									<input class="form-control " ng-model='altFUF' type="text" maxlength="2">
+
+								</div>
+								
+							    <div class="col col-md-4">Complemento:
+								<input class="form-control " ng-model='altFComplemento' type="text" maxlength="100">
 								</div>
 							</div>
 
 							<div class="form-group">
-							    <div class="col col-md-12">
-								<input class="form-control " ng-model='altFCEP'  type="text" >
+							    <div class="col col-md-4">CEP:
+								<input class="form-control " ng-model='altFCEP'  type="text" maxlength="30">
 								</div>
-							</div>
 
-							<div class="form-group">
-							    <div class="col col-md-12">
-								<input class="form-control " ng-model='altFCNPJ'  type="text" >
+							    <div class="col col-md-4">CNPJ:
+								<input class="form-control " ng-model='altFCNPJ'  type="text" maxlength="50">
 								</div>
-							</div>
 
-							<div class="form-group">
-							    <div class="col col-md-12">
-								<input class="form-control " ng-model='altFIE'  type="text" >
+							    <div class="col col-md-4">Inscrição Estadual:
+								<input class="form-control " ng-model='altFIE'  type="text" maxlength="30">
 								</div>
 							</div>				
 
 							<div class="form-group">
-							    <div class="col col-md-6">
-								<input class="form-control " ng-model='altFTel1'  type="text" >
+							    <div class="col col-md-3">Telefone:
+								<input class="form-control " ng-model='altFTel1'  type="text" maxlength="30">
 								</div>
 
-								<div class="col col-md-6">
-								<input class="form-control " ng-model='altFTel2' type="text" >
+								<div class="col col-md-3">Telefone:
+								<input class="form-control " ng-model='altFTel2' type="text" maxlength="30">
 								</div>
-							</div>
-						
-							<div class="form-group">
-							    <div class="col col-md-12">
-								<input class="form-control " ng-model='altFEmail' type="text" >
+	
+							    <div class="col col-md-6">E-mail:
+								<input class="form-control " ng-model='altFEmail' type="text" maxlength="100">
 							</div>
 							
 							</div>						
-							<div class="card-footer">
+							<div class="card-footer" align="center">
 								<button class="btn btn-success btn-sm"
 								ng-click='atualizaForn(altFNome,altFRep,altFRua,
 								altFBairro,altFNumero,altFCidade,altFUF,
@@ -476,14 +524,14 @@
 			    <div class="card">
 			    	<!-- DADOS DA NOTA FISCAL-->
 		        	<div class="card-body card-block">
-			            <form action="" method="" class="form-horizontal" style="position:relative;right:140%;top:27px;";>
+			            <form action="" method="" class="form-horizontal" style="position:relative;right:120%;top:27px;";>
 							<div class="form-group">
-							    <div class="col col-md-12">
-								<input class="form-control " ng-model='entNumNF' placeholder="Nota Fiscal" type="text">
+							    <div class="col col-md-12">Nota Fiscal:
+								<input class="form-control " ng-model='entNumNF' placeholder="Número de Nota Fiscal" type="text">
 							</div>
 							</div>
 							<div class="form-group">
-							    <div class="col col-md-12">
+							    <div class="col col-md-12">Fornecedor:
 									<select class="form-control" ng-mouseover='preencheFornEntrada()' ng-model='codFornNF' type="text">
 									<option ng-repeat='x in comboFornEntrada'  value='{{x.id}}'>{{x.nome}}</option>
 								</select>
@@ -495,20 +543,20 @@
 					
 	   				<!-- Inserção de produtos -->
 					<div class="col-lg-6-header" style="display:block;">
-						<div style="float: left;left:2.5%;position:relative;top:-90px;">
+						<div style="float: left;left:2.5%;position:relative;top:-111px;height:0px;left:30%;">
 							<div class="form-group">
 								Produto:
-								<select class="form-control" ng-mouseover='buscaProdutosEntrada()' style="width:500px;" ng-model='prodEntrada' type="text">
+								<select class="form-control" ng-mouseover='buscaProdutosEntrada()' style="width:300px;" ng-model='prodEntrada' type="text">
 									<option ng-repeat='x in comboEntMer' value='{{x.id}}@{{x.nome}}'>{{x.nome}}</option>
 								</select>
-								<input   class="form-control" ng-model='entradaMerQtd' type="number" placeholder="Quantidade">
+								<input   class="form-control" ng-model='entradaMerQtd' type="number" style="width:115px;position:relative;top:-34px;left:102%;" placeholder="Quantidade">
 							</div>
-							<input type='submit' style="position:relative;top:-47px;left:101%;" class="btn btn-success btn-sm" ng-click='preencheLista(prodEntrada,entradaMerQtd)' value='+'/>
+							<input type='submit' style="position:relative;top:-81px;left:142%;" class="btn btn-success btn-sm" ng-click='preencheLista(prodEntrada,entradaMerQtd)' value='+'/>
 						</div>
 					</div>
 
 
-						<div class="card-body" style="position:relative;height: 100px;overflow-y: auto;width:500px;top:-125px;left:7px;">
+						<div class="card-body" style="position:relative;height: 190px;overflow-y: auto;width:500px;top:-28px;left:30%;">
 							<table class="table table-bordered" style="font-size:15px;">
 								<thead>
 									<tr>
@@ -524,8 +572,8 @@
 								</tbody>
 							</table>
 						</div>
-						<input type='submit' style="position:relative;top:10px;left:35px;" class="btn btn-success btn-sm" ng-click='cadastraEntrada(entNumNF,codFornNF)' value='Finalizar Operação'/>
-						<input type='submit' style="position:relative;top:10px;"
+						<input type='submit' style="position:relative;top:2px;" class="btn btn-success btn-sm" ng-click='cadastraEntrada(entNumNF,codFornNF)' value='Finalizar Operação'/>
+						<input type='submit' style="position:relative;top:2px;"
 						class="btn btn-danger btn-sm" ng-click='cancelaEntrada()' value='Cancelar'/>
 		        </div>
 		    </div>
@@ -541,19 +589,17 @@
 	    <div class="alert alert-success"  ng-show ='alertCadForn' role="alert">
   		<strong>{{msgCadForn}}</strong>
 		</div>
-	   <div align="left" style="width:40%;height:72%;" >
+	   <div align="left" style="width:80%;height:300px;" >
 			<div class="col-lg-14">
 			    <div class="card">
 		        	<div class="card-body card-block">
 			            <form  class="form-horizontal">
 							<div class="form-group">
-							    <div class="col col-md-12">
+							    <div class="col col-md-6">
 								<input class="form-control " ng-model='FNome' placeholder="Nome" type="text" >
 								</div>
-							</div>
-
-							<div class="form-group">
-							    <div class="col col-md-12">
+		
+							    <div class="col col-md-6">
 								<input class="form-control " ng-model='FRep' placeholder="Representante" type="text" >
 								</div>
 							</div>
@@ -574,51 +620,43 @@
 							</div>
 
 							<div class="form-group">
-							    <div class="col col-md-8">
+							    <div class="col col-md-4">
 									<input class="form-control " ng-model='FCidade' placeholder="Cidade" type="text" >
 								</div>
-								<div class="col col-md-4">
+								<div class="col col-md-2">
 									<input class="form-control " ng-model='FUF' placeholder="UF" type="text" >
 
 								</div>
-							</div>
 
-							<div class="form-group">
-							    <div class="col col-md-12">
+							    <div class="col col-md-2">
 								<input class="form-control " ng-model='FComplemento' placeholder="Complemento" type="text" >
 								</div>
-							</div>
 
-							<div class="form-group">
-							    <div class="col col-md-12">
+							    <div class="col col-md-4">
 								<input class="form-control " ng-model='FCEP' placeholder="CEP" type="text" >
 								</div>
 							</div>
 
 							<div class="form-group">
-							    <div class="col col-md-12">
+							    <div class="col col-md-6">
 								<input class="form-control " ng-model='FCNPJ' placeholder="CNPJ" type="text" >
 								</div>
-							</div>
 
-							<div class="form-group">
-							    <div class="col col-md-12">
+							    <div class="col col-md-6">
 								<input class="form-control " ng-model='FIE' placeholder="Inscrição Estadual" type="text" >
 								</div>
 							</div>				
 
 							<div class="form-group">
-							    <div class="col col-md-6">
+							    <div class="col col-md-3">
 								<input class="form-control " ng-model='FTel1' placeholder="Telefone1" type="text" >
 								</div>
 
-								<div class="col col-md-6">
+								<div class="col col-md-3">
 								<input class="form-control " ng-model='FTel2' placeholder="Telefone2" type="text" >
 								</div>
-							</div>
-						
-							<div class="form-group">
-							    <div class="col col-md-12">
+	
+							    <div class="col col-md-6">
 								<input class="form-control " ng-model='FEmail' placeholder="E-mail" type="text" >
 							</div>
 							

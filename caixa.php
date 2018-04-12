@@ -3,16 +3,17 @@
 	<!--Icone-->
 		<link rel="icon" href="img/aw.ico" type="image/x-icon" />
 		<link rel="shortcut icon" href="img/aw.ico" type="image/x-icon" />
-		<title>Duval - Caixa</title>
+		<title>ARTWEB - Sistema de Gestão Comercial</title>
 		<meta charset="UTF-8">
 	<!--Links-->
 		<link rel="stylesheet" href="css/config.css">	
 		<link rel="stylesheet" type="text/css" href="css/Bootstrap/bootstrap.css">
-		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/w3.css">
+		<link rel="stylesheet" href="css/bootstrap/bootstrap3.3.7.css">
 	<!--Script-->
 		<script type="text/javascript" src="js/angular/angular.js"></script>
 		<script type="text/javascript" src="js/caixa.js"></script>
+		<script src="js/ajax.js"></script>
 </head>
 
 <body ng-app='caixa'>
@@ -28,7 +29,7 @@
 							<div class="col-lg-6-header" style="display:block;">
 								<div style="float: left;left:2.5%;">
 									<input type="text" ng-model='prodCaixa' placeholder="Produto">
-									<button ng-click='buscarProduto(prodCaixa)'>Buscar</button>
+									<button ng-click='buscarProduto(prodCaixa)' id="meuBotao">Buscar</button><!--NÃO TIRAR O ID-->
 								</div>
 							</div>
 						<p><br>
@@ -37,6 +38,7 @@
 							<table class="table table-bordered" style="font-size:15px;">
 								<thead>
 									<tr>
+										<th scope="col">Código</th>
 										<th scope="col">Produto</th>
 										<th scope="col">Quantidade</th>
 										<th scope="col">Valor Unitário</th>
@@ -45,6 +47,7 @@
 								</thead>
 								<tbody>
 									<tr ng-repeat="x in listaprod">
+										<td scope="col">{{x.codigo}}</td>
 										<td scope="col">{{x.nome}}</td>
 										<td scope="col"><input type="number" ng-model='qtd' min='1' placeholder="1" style="width:80px;"></td>
 										<td scope="col">{{x.precoVenda}}</td>
@@ -119,11 +122,11 @@
             <div class="card-header" style="display:block;width:100%;height:26%;">
             	<div style="float: left;">
 					<div id="Caixa" class="w3-container city"><!--PAINEL DO CAIXA-->
-						<h4>Total de vendas <strong> Atual</strong></h4><p>
+						<h4>Saldo disponível no <strong>Caixa</strong></h4><p>
 							<div class="col-lg-6-header" style="display:block;">
 								<font size="30" color="green"><input type="text" ng-model='totalAtual' disabled size="19">
 								</font>
-								<button type="reset" class="btn btn-danger btn-sm" ng-click='fecharCaixa()'><i class="fa fa-ban"></i> Fechar Caixa</button>
+								<button type="reset" style="position:relative;top:7px;" class="btn btn-danger btn-sm" ng-click='fecharCaixa()'>Fechar Caixa</button>
 							</div>
 					</div>
 				</div>
@@ -162,3 +165,12 @@
 
 </body>
 </html>
+
+
+
+
+<SCRIPT TYPE="text/javascript">
+$(document).keypress(function(e) {
+    if(e.which == 13) $('#meuBotao').click();
+});
+</SCRIPT>

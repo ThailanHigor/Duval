@@ -37,7 +37,8 @@ app.controller('listaProd', function ($scope,$http,$window) {
 			'&vfinal='+$scope.totalAtual).
 			then(function success(response){
 				console.log('Aberto');
-				alert('Voce Fechou o caixa, valor final: '+$scope.totalAtual)
+				alert('Caixa fechado, valor final: '+$scope.totalAtual);
+				alert('Lucro: '+$scope.totalLucro);
 				$window.location.href = 'index.php'
 			})
 

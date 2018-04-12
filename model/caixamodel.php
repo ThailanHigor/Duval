@@ -8,7 +8,7 @@ date_default_timezone_set('America/Sao_Paulo');
 if ($op =='buscaProdutos') {
 	$nome = $_GET['nome'];
 
-	$sql = "SELECT * FROM produtos where LOWER(nome) like LOWER('%$nome%')";
+	$sql = "select * from produtos where LOWER(nome) like LOWER('%$nome%') or codigo like '%$nome%'";
 	
 	$busca = $conector->query($sql);
 
