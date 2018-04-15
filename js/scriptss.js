@@ -533,7 +533,12 @@ app.controller('aberturaCaixa',function($scope,$http,$window){
 				console.log('Validado');
 				$scope.caixaDia = response.data.dados;
 				if($scope.caixaDia.length <= 0){
-					alert('Voce precisa abrir o caixa hoje!')
+					$.jAlert({
+					    'title': 'Erro!',
+					    'content': '<h5>Você precisa abrir o caixa hoje!<h5>',
+					    'theme': 'red',
+					    'btns': { 'text': 'fechar' }
+					  		});
 					$scope.abertura = true;
 				}else{
 					$window.location.href = 'caixa.php'

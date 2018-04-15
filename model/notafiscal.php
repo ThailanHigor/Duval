@@ -29,10 +29,7 @@
      		$dados['dados'] = $json;
 			echo json_encode($dados);
 		}
-		
-
 	//FIM cadastro	
-
 	}elseif($op =='prodsNota'){
 		$prodID = $_GET['prod'];
 		$qtd = $_GET['qtd'];
@@ -49,7 +46,31 @@
 
  		$conector->query($sql2)or die("Erro ao Cadastrar.");
 
+	}elseif ($op =='buscaNota') {
+		$idnota = $_GET['idnota'];
+		$sql = "SELECT * FROM venda
+				INNER JOIN produtos_venda ON
+				venda.id_Venda = produtos_venda.id_Venda
+				INNER JOIN produtos ON
+				produtos_venda.prod_venda = produtos.id
+				WHERE venda.id_Venda='$idnota' 
+				";
 
+		$busca = $conector->query($sql);
+
+		$quantidade = mysqli_num_rows($busca);
+
+		if ($quantidade > 0) {
+			while($row = $busca->fetch_assoc()){
+     		$json[] = $row;
+     		
+     	};
+     		$dados['dados'] = $json;
+		}else{
+			$dados['dados'] = [];
+		}
+
+		echo json_encode($dados);
 	}
 
 

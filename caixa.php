@@ -1,4 +1,4 @@
-<html>
+<html>	
 <head>
 	<!--Icone-->
 		<link rel="icon" href="img/aw.ico" type="image/x-icon" />
@@ -10,10 +10,43 @@
 		<link rel="stylesheet" type="text/css" href="css/Bootstrap/bootstrap.css">
 		<link rel="stylesheet" href="css/w3.css">
 		<link rel="stylesheet" href="css/bootstrap/bootstrap3.3.7.css">
+		<link rel="stylesheet" href="css/jAlert.css">
+		<link rel="stylesheet" href="css/jquery-confirm.css">
+
 	<!--Script-->
 		<script type="text/javascript" src="js/angular/angular.js"></script>
-		<script type="text/javascript" src="js/caixa.js"></script>
+		<script type="text/javascript" src="js/caixaa.js"></script>
 		<script src="js/ajax.js"></script>
+		<script src="js/jAlert.js"></script>
+		<script src="js/jquery-confirm.js"></script>
+		<style type="text/css">
+			.Buscarnota{
+				margin-left:0px; 
+				margin-top: 0px; 
+				width: 200px;
+				height: 35px;
+			}
+			.tbinfo{
+				font-size:15px;
+				margin-left: 100px;
+				margin-top:20px;
+				width:675px;
+			}
+			.listprod{
+				height: 42%;
+				overflow-y: auto;
+				position:relative;
+				margin-top:-20px;
+			}
+			.ok{
+				background-color: green;
+				color: white;
+			}
+			.erro{
+				background-color: red;
+				color: white;
+			}
+		</style>
 </head>
 
 <body ng-app='caixa'>
@@ -28,7 +61,7 @@
 						<h4>Lista de <strong>Produtos</strong></h4><p>
 							<div class="col-lg-6-header" style="display:block;">
 								<div style="float: left;left:2.5%;">
-									<input type="text" ng-model='prodCaixa' placeholder="Produto">
+									<input type="text" ng-model='prodCaixa' placeholder="Produto" autofocus>
 									<button ng-click='buscarProduto(prodCaixa)' id="meuBotao">Buscar</button><!--NÃO TIRAR O ID-->
 								</div>
 							</div>
@@ -127,6 +160,8 @@
 								<font size="30" color="green"><input type="text" ng-model='totalAtual' disabled size="19">
 								</font>
 								<button type="reset" style="position:relative;top:7px;" class="btn btn-danger btn-sm" ng-click='fecharCaixa()'>Fechar Caixa</button>
+								<button type="reset" style="position:relative;top:7px;" onclick="document.getElementById('id02').style.display='block'" class="btn btn-warning btn-sm">Devolução</button>
+								<button type="reset" style="position:relative;top:7px;" onclick="document.getElementById('id03').style.display='block'" class="btn btn-info btn-sm">Notas Fiscais</button>
 							</div>
 					</div>
 				</div>
@@ -158,15 +193,96 @@
 		</div>
 	</div>
 <!-- FIM FORMA DE PAGAMENTO -->
-	</div>
-	</div>
-											
 	
+<!-- DEVOLUÇÃO -->	
+	<div id="id02" class="w3-modal" ng-controller='devolucao'>
+		<div class="w3-modal-content w3-card-4 w3-animate-zoom">
+		  <header class="w3-container w3-white"> 
+			   <span onclick="document.getElementById('id02').style.display='none'" 
+			   class="w3-button w3-white w3-xlarge w3-display-topright" ng-click='fechar()'>&times;</span>
+				<div align="center">
+					<h3>Devolução de Produtos</h3>
+					<hr>
+				</div>
+				<div class="card-body card-block">
+					<form class="form-horizontal">
+						<!-- BUSCA NOTA -->
+							<div class="form-group" style="position:relative;left:1%;">
+								<div class="col col-md-4">Número de Nota Fiscal:
+								<input  autofocus class="form-control" placeholder="Insira o número da nota" style="width: 200px;" type="text" ng-model='numNota'>
+								<button type="reset" class="btn btn-success btn-sm Buscarnota" ng-click='buscarNota(numNota)'>Buscar</button>
+
+							</div>
+						<!-- FIM BUSCA -->
+
+						<!-- INFORMACOES DA VENDA -->
+							<table class="table table-bordered tbinfo" >
+								<thead>
+									<tr>
+										<th style="width: 50px;">Venda:</th>
+										<td  style="width: 150px;" scope="col">{{idvenda}}</td>
+										<th>Data:</th>
+										<td style="width: 250px;" scope="col">{{data}}</td>
+									</tr>
+				
+									<tr>
+										<th style="width: 50px;">Pagamento:</th>
+										<td style="width: 150px;" scope="col">{{pag}}</td>
+										<th>Devolvida:</th>
+										<td style="width: 250px;" ng-class="devol=='Não' ? 'ok': devol=='Sim' ? 'erro':''" scope="col">{{devol}}</td>
+
+									</tr>
+					
+								</thead>			
+							</table>
+						<!-- FIM INFO -->
+						</div>
+					<!-- LISTAGEM DOS PRODUTOS DA VENDA -->
+						<div class="card-body listprod">
+
+							
+							<table class="table table-bordered" style="font-size:15px;">
+								<thead>
+									<tr>
+										<th scope="col">Produto</th>
+										<th scope="col">Quantidade</th>
+										<th scope="col">Valor Unitário</th>
+									
+									</tr>
+								</thead>
+								<tbody>	
+									<tr ng-repeat="y in notas">
+										<td ng-class="devol=='Não' ? 'ok' : 'erro'" scope="col">{{y.nome}}</td>
+										<td ng-class="devol=='Não' ? 'ok' : 'erro'"  scope="col">{{y.qtd_venda}}</td>
+										<td ng-class="devol=='Não' ? 'ok' : 'erro'"  scope="col">{{y.precoVenda}}</td>
+
+									</tr>	
+								</tbody>			
+							</table>
+								
+						</div>
+					<!-- FIM DA LISTAGEM -->
+									
+						<div class="form-group">
+							<center>
+							    <div class="col col-md-12">
+								<button type="reset" class="btn btn-info btn-sm devolver" ng-click='devolveNota()'>Efetuar Devolução</button>
+								</div>
+							</center>
+						</div>
+					</form>
+				</div>
+					        				
+		</div>
+	</div>
+	
+<!-- FIM DEVOLUÇÃO -->	
+
+	</div>
+	</div>
 
 </body>
 </html>
-
-
 
 
 <SCRIPT TYPE="text/javascript">

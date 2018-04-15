@@ -4,13 +4,18 @@
 	<link rel="shortcut icon" href="img/aw.ico" type="image/x-icon" />
 
 		<title>ARTWEB - Sistema de Gestão Comercial</title>
+		<meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+
 			<meta charset="UTF-8">
 			<link rel="stylesheet" href="css/config.css">
 			<link rel="stylesheet" href="css/w3.css">
 			<link rel="stylesheet" href="css/bootstrap/bootstrap3.3.7.css">
+			<link rel="stylesheet" href="css/jAlert.css">
 			<script src="js/angular/angular.js" type="text/javascript"></script>
 			<script src="js/ajax.js"></script>
-			<script src="js/scripts.js" type="text/javascript"></script>
+			<script src="js/jAlert.js"></script>
+			<script src="js/scriptss.js" type="text/javascript"></script>
 </head>
 <body ng-app='duval'>
 
@@ -136,7 +141,7 @@
   		<strong>{{msgCadProd}}</strong>
 		</div>
 	  
-	   <div align="left" style="width:50%;height:380px;" >
+	   <div align="left" style="width:50%;height:350px;" >
 
 			<div class="col-lg-14">
 			    <div class="card">
@@ -145,7 +150,7 @@
 			            <form class="form-horizontal">
 							<div class="form-group">
 							    <div class="col col-md-12">Código:
-								<input class="form-control" placeholder="Insira o código do produto" ng-model='prodCod' type="text" >
+								<input class="form-control" placeholder="Insira o código do produto" ng-model='prodCod' maxlength="15" type="text" autofocus>
 							</div>
 							</div>
 							<div class="form-group">
@@ -168,9 +173,6 @@
 								<option ng-repeat='x in comboForn'  value='{{x.id}}'>{{x.nome}}</option>
 								</select>
 								</div>
-							</div>
-							<div style="position:relative;top:-10px;">Imagem do Produto:
-								<input type="file" name="imagem"/>
 							</div>
 								<div class="card-footer">
 									<button  class="btn btn-success btn-sm" ng-click='cadastraProduto(prodCod,prodNome,prodValorCompra,prodValorVenda,prodForn)' value='Cadastrar'>Cadastrar</button>
@@ -197,7 +199,7 @@
 	    <!-- FORMULARIO DE BUSCA -->
 		    <div class="card-header" style="display:block;">
 		        <div style="float: left;" ng-show='exibeMeusProd' >
-					<input type="text"  ng-model='formBusca' name="fornBuscar" placeholder="Produto">
+					<input type="text"  ng-model='formBusca' name="fornBuscar" placeholder="Produto" autofocus>
 					<button ng-click='buscaProduto(formBusca)'>Buscar</button>
 								
 				</div>
@@ -212,7 +214,6 @@
 			 	<table class="table" style="font-size:12px;">
 				    <thead>
 				      <tr>
-				        <th>Imagem</th>
 				        <th>Código</th>
 				        <th>Nome</th>
 				        <th>Quantidade Atual</th>
@@ -225,7 +226,6 @@
 				    </thead>
 				    <tbody>
 				  		<tr ng-repeat="x in meusprodutos">
-						<td scope="col">{{x.imagem}}</td>
 						<td scope="col">{{x.codigo}}</td>
 						<td scope="col">{{x.nome}}</td>
 						<td scope="col">{{x.quantidade}}</td>
@@ -305,7 +305,7 @@
 	    <!-- FORMULARIO DE BUSCA -->
 		    <div class="card-header" style="display:block;" ng-show='verForn'>
 		        <div style="float: left;">
-					<input type="text"  ng-model='fornBusca' name="fornBuscar" placeholder="Nome">
+					<input type="text"  ng-model='fornBusca' name="fornBuscar" placeholder="Nome" autofocus>
 					<button ng-click='buscaFornecedor(fornBusca)'>Buscar</button>
 				</div>
 		    </div>
@@ -364,7 +364,7 @@
 
 								</div>
 								<div class="col col-md-3">Número:
-								<input class="form-control " value="{{verNum}}" type="number" disabled>
+								<input class="form-control " value="{{verNum}}" type="text" disabled>
 
 								</div>
 							</div>

@@ -135,7 +135,21 @@ if ($op =='buscaProdutos') {
 
  		$conector->query($sql)or die("Erro ao Cadastrar.");
 
-}
+}elseif ($op =='devolveNota') {
+	$idvenda = $_GET['id'];
 
+	$sql = "UPDATE venda SET devolvido ='1' 
+			where id_Venda ='$idvenda'";
+
+ 	$conector->query($sql)or die("Erro ao Atualizar.");
+}elseif ($op =='aumentaEst') {
+		$prod = $_GET['prod'];
+		$qtd = $_GET['qtd'];
+	
+ 		$sql = "UPDATE produtos SET quantidade =quantidade+'$qtd' 
+ 				where id='$prod'";
+
+ 		$conector->query($sql)or die("Erro ao Cadastrar.");
+ }
 
 ?>
